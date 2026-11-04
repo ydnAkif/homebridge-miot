@@ -1,9 +1,12 @@
 {
   "name": "homebridge-miot",
   "displayName": "Homebridge Miot",
-  "version": "1.9.0",
+  "version": "2.1.1-ydnakif.1",
   "description": "Homebridge plugin for devices supporting the miot protocol",
   "main": "index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js stability-tests/*.test.cjs"
+  },
   "engines": {
     "node": "^18.20.4 || ^20.15.1 || ^22 || ^24",
     "homebridge": "^1.6.0 || ^2.0.0-beta.0"

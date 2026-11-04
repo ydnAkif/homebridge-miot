@@ -6,6 +6,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-11-01
+### Added
+- Added opt-in Dreame saved-map room discovery for Matter. Uses the configured MiCloud session and region, selects the active map by its binary header ID, and automatically caches and publishes that map's rooms. Thanks @solowalker27 for the contribution.
+- Added support for dmaker.fan.p39 (Xiaomi Smart Tower Fan) and xiaomi.fan.p85 (Mijia Smart Standing Fan Pro Slim). Thanks @aashishvanand for the contribution.
+- Added the optional `stableId` device setting. When set, the HomeKit accessory identity no longer depends on the token, so re-pairing a device in Mi Home keeps it in HomeKit instead of adding it as a new accessory. Thanks @dawidrylko for the contribution.
+- Add optional localization for automatically generated MIoT and HomeKit service display names through `nameLanguage`. Thanks @wxyjay for the contribution.
+
+### Fixed
+- Fixed dehumidifiers reporting a false active-dehumidification state (or appearing unavailable). The target humidity is now preserved, real compressor telemetry is used when available, and devices without it report idle while powered instead of inferring activity from power alone. Thanks @kacperduras for the contribution.
+- Fixed the shutdown timer (off delay) control not appearing for zhimi.fan.za4. This fan exposes its timer as the countdown service rather than the standard off-delay property, so the control was no longer created; it is now mapped correctly.
+- Matter robot cleaners connected through MiCloud (e.g. viomi.vacuum.v7/v8, which only work through MiCloud) now respond to start, pause, dock and mode commands. These commands previously required a local connection and always failed with "Robot cleaner is not connected locally." They now use the local connection when available and fall back to MiCloud otherwise. Thanks @YoYoZ for the contribution.
+- Robot cleaner Locate/Identify now also uses the dedicated `find-vacuum` action when present, so "play sound to locate" works on devices that expose it (e.g. xiaomi.vacuum.b108gl).
+
+
+## [2.0.0] - 2026-09-26
+### Added
+- Added support for xiaomi.sensor_occupy.03 (Xiaomi Human Presence Sensor) as a HomeKit occupancy sensor. Thanks @skop1986 for the implementation and testing.
+- Added a unit test suite covering the plugin's core engine (utility helpers, MiotProperty/MiotAction/MiotService parsing, MiotDevice metadata layer, and BaseDevice value conversions) to guard base functionality against regressions.
+- Added support for ijai.vacuum.v18 (Xiaomi Robot Vacuum S20). Thanks @claudiomadureira for the contribution.
+- Added Matter support for robot cleaners. Robots can now be exposed through Homebridge Matter (Homebridge 2.x), with configurable connection mode (auto/local/cloud), room discovery for the Matter ServiceArea cluster, and an optional HomeKit "Return to Dock" switch. Disabled by default. Thanks @Kief5555 for the contribution.
+
+### Fixed
+- Fixed non-battery devices (air purifiers, humidifiers, air monitors, etc.) exposing a spurious `StatusLowBattery` characteristic on their sensor services. It is now only added when the device actually reports a battery level.
+- Fixed the action duplicate-name guard in MiotDevice, which incorrectly checked existing property names instead of action names.
+- Fixed zhimi.airfresh.ua1 polling failing in cold conditions. The device firmware returns corrupted data for the inlet temperature property below zero, which timed out polling and eventually stopped it; the property is no longer exposed. Thanks @mrmaximas for the detailed report.
+
+
+## [1.9.1] - 2026-09-11
+### Changed
+- Update zhimi.fan.za4 spec
+
+### Fixed
+- `value` and `linkedPropertyValue` of `propertyControl` / `propertyMonitor` entries are now converted to the format of the property. The Homebridge UI form stores them as strings, which made fixed value switches never report their state and sent string values to the device. Thanks @maksymenkoml for the contribution.
+
+
 ## [1.9.0] - 2026-07-24
 ### Added
 - Added support for login to MiCloud via QR code. That should improve and simply caching of the session. Thanks @Debbie-Yuan for the contribution.
@@ -13,7 +48,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fix cuco.plug.cp1 spec. Thanks @Debbie-Yuan for the contribution.
-
 
 ## [1.8.7] - 2026-03-01
 ### Added

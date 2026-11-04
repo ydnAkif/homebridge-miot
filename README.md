@@ -56,10 +56,11 @@ The goal is to add Homekit support to miot devices and make them fully controlla
 * Plant Monitor
 * Motion Sensor
 * Diffuser
+* Occupancy Sensor
 
 More device types will be added!
 
-For a full list of supported devices by model check here: [all supported devices by model](https://github.com/merdok/homebridge-miot/blob/master/supported_devices.md).
+For a full list of supported devices by model check here: [all supported devices by model](https://github.com/merdok/homebridge-miot/blob/main/supported_devices.md).
 
 #### Even if your device is not on the supported devices list, worry not! The plugin will use the miot spec to categorize your device as best as possible.
 
@@ -198,9 +199,11 @@ This is a global configuration object for the MiCloud connection. When specified
     - *username* - [required] the MiCloud username
     - *password* - [required] the MiCloud password
     - *country* - [optional] the country where the servers are located for your devices. **Default: "cn"**
-    - *forceMiCloud* - [optional] forces to use MiCloud even when the device supports local commands. **Default: false**
-    - *useCachedSession* - [optional] use a cached MiCloud session. Useful when 2FA is needed for the account. Use the homebrige ui to create a session. The recommended flow is the QR code login because Xiaomi's password login can now require a browser-only auth flow. **Default: false**
+    - *forceMiCloud* - [optional] forces to use MiCloud even when the device supports local commands. Matter-enabled robot cleaners try local MIOT first and fall back to HAP/MiCloud when local setup fails. **Default: false**
+    - *useCachedSession* - [optional] use a cached MiCloud session. Useful when 2FA is needed for the account and as a connection/reachability fallback for Matter robots. The recommended QR-code flow handles Xiaomi's browser-only authentication; the UI can also reuse the latest successful discovery login when **Cache MiCloud session** is pressed. **Default: false**
     - *timeout* - [optional] set a custom request timeout in milliseconds. **Default: 5000**
+- `nameLanguage` [optional]
+Selects the language for automatically generated MIoT and HomeKit service display names. Supported values are `auto`, `zh-Hans`, `zh-Hant`, `de`, `ru`, and `en`. `auto` uses the effective device or global `micloud.country`; an explicit language is independent from the MiCloud server country. When omitted, the existing naming behavior is preserved. Official MIoT names are cached under `spec/localization/` and refreshed at most once every 30 days. **Default: "" (not specified)**
 #### General device configuration fields
 - `name` [required]
 The name of the accessory.
@@ -210,8 +213,12 @@ The ip address of your device.
 The token of your device.
 - `deviceId` [optional]
 The deviceId is required for a MiCloud connection to identify the device. If not specified an attempt will be made to retrieve it from a local connection to the device **Default: "" (not specified)**
+- `stableId` [optional]
+Any unique value, for example the device MAC address (case does not matter). When set, the HomeKit accessory identity is derived from it instead of the token, ip and deviceId, so re-pairing the device in Mi Home, which issues a new token, keeps the accessory with its room, scenes and automations. Setting or changing it re-creates the accessory once. **Default: "" (not specified)**
 - `model` [optional]
 The device model if known. Should only be specified when certain about the device model. If specified then the accessory will be created instantly without the need to first discover and identify the device. **Default: "" (not specified)**
+- `nameLanguage` [optional]
+Overrides the platform `nameLanguage` for this device. `auto` uses this device's effective `micloud.country`. **Default: platform setting**
 - `micloud` [optional]
 When specified overwrites the global setting for the device. Useful when you have devices on different servers or want to force certain devices to use MiCloud. **Default: "" (not specified)**
 - `prefsDir` [optional]
@@ -226,6 +233,12 @@ Enables additional more detailed debug log. Useful when trying to figure out iss
 When enabled all log output will only appear in debug mode. **Default: false**
 - `deviceEnabled` [optional]
 Whether the device is enabled. Disabling the device will not initiate polling. Useful when a device is longer offline and it should not automatically reconnect. **Default: true**
+- `matterEnabled` [optional]
+Robot Cleaner only. Exposes the robot through Homebridge Matter. Homebridge 2.x Matter must also be enabled on the main bridge or this plugin's child bridge. **Default: false**
+- `matterConnection` [optional]
+Robot Cleaner only. Selects `auto`, `local`, or `cloud`. Auto tries local MIOT first and uses configured MiCloud as a fallback. If neither path responds, Matter reports the robot unavailable instead of serving stale state. See the [Robot Cleaner guide](https://github.com/merdok/homebridge-miot/blob/main/docs/robotcleaner.md). **Default: auto**
+- `matterHomeKitDockSwitch` [optional]
+Robot Cleaner only. Adds a momentary HomeKit **Return to Dock** switch alongside a Matter robot so Apple Home automations and Shortcuts can send it home. The Homebridge bridge must also be paired with Apple Home. **Default: false**
 - `customAccessory` [optional]
 Creates a custom empty accessory for the device which can be manually populated with services. Requires ***actionButtons***, ***propertyControl*** or ***propertyMonitor*** to be set. **Default: false**
 - `onlyMainService` [optional]

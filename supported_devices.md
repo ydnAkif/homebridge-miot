@@ -32,6 +32,8 @@ Devices marked as 🔴[BLE Mesh] and 🟡[Zigbee] require a connection over a Ga
 -   zhimi.fan.za3 (Smartmi Standing Fan 2) 🔵[MiCloud]
 -   xiaomi.fan.p45 (Xiaomi Smart Tower Fan 2)
 -   dmaker.fan.p28 (Mijia Smart Standing Air Circulation Fan)
+-   dmaker.fan.p39 (Xiaomi Smart Tower Fan)
+-   xiaomi.fan.p85 (Mijia Smart Standing Fan Pro Slim)
 
 
 ### Ceiling Fan
@@ -177,6 +179,7 @@ Devices marked as 🔴[BLE Mesh] and 🟡[Zigbee] require a connection over a Ga
 -   roborock.vacuum.a29 (Roborock Vacuum G10)
 -   roidmi.vacuum.v6 (Roidmi Eve Plus)
 -   roborock.vacuum.a10 (Roborock S6 MaxV)
+-   ijai.vacuum.v1 (Mi Robot Vacuum-Mop Pro)
 -   ijai.vacuum.v2 (Mi Robot Vacuum-Mop 2)
 -   roborock.vacuum.s5e (Roborock S5 MAX) 🔵[MiCloud]
 -   roborock.vacuum.s5 (Roborock S5) 🔵[MiCloud]
@@ -186,6 +189,7 @@ Devices marked as 🔴[BLE Mesh] and 🟡[Zigbee] require a connection over a Ga
 -   dreame.vacuum.p2041o (Xiaomi Vacuum Mop 2 Pro+)
 -   viomi.vacuum.v8 (Xiaomi Robot Vacuum-Mop Pro) 🔵[MiCloud]
 -   ijai.vacuum.v3 (Mi Robot Vacuum-Mop 2 Pro)
+-   ijai.vacuum.v18 (Xiaomi Robot Vacuum S20) 🔵[MiCloud]
 -   dreame.vacuum.p2150o (Mijia Robot Vacuum-Mop Dirt Disposal)
 -   dreame.vacuum.p2259 (Dreame Bot D9 Max)
 -   dreame.vacuum.p2187 (Dreame D9 Pro)
@@ -307,6 +311,10 @@ Devices marked as 🔴[BLE Mesh] and 🟡[Zigbee] require a connection over a Ga
 
 -   isa.magnet.dw2hl (Xiaomi Door and Windows Sensor 2)
 -   lumi.sensor_magnet.v2 (Xiaomi Mi Door and Window Sensor)
+
+### Occupancy Sensor
+
+-   xiaomi.sensor_occupy.03 (Xiaomi Human Presence Sensor)
 
 ### Gateway
 
